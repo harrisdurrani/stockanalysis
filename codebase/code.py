@@ -47,7 +47,17 @@ class Codebase:
 
 		browser.find_by_xpath('//*[@id="authform"]/main/details/summary').click()
 		browser.find_by_name('init_secretquestion').click()
-		browser.find_by_id("secretquestion0").first.fill(self.sec1)
+
+
+		if browser.is_text_present("In what city was your high school? (Enter full name of city only.)"):
+			browser.find_by_name("su_secretquestion").first.fill(self.sec1)
+		elif browser.is_text_present("In what city were you born?"):
+			browser.find_by_name("su_secretquestion").first.fill(self.sec2)
+		elif browser.is_text_present("What was your high school mascot?"):
+			browser.find_by_name("su_secretquestion").first.fill(self.sec3)
+		else:
+			browser.find_by_name("su_secretquestion").first.fill(self.sec4)
+
 		browser.find_by_xpath('//*[@id="authform"]/main/div[5]/span/label').first.click()
 
 		browser.find_by_id("accept").first.click()
@@ -59,6 +69,4 @@ class Codebase:
 
 
 		return parse_url
-	
-cb = Codebase()
-cb.open_connection()
+
