@@ -4,6 +4,9 @@ import requests
 from splinter import Browser
 from dotenv import load_dotenv
 import os
+import sys
+
+#sys.path.append(r"D:\PY Files\My Projects\stockanalysis\codebase")
 
 
 # load_dotenv()
@@ -23,8 +26,9 @@ class Codebase:
 		self.sec3 = os.getenv("SEC3")
 		self.sec4 = os.getenv("SEC4")
 		self.auth_code = os.getenv("AUTH_CODE")
+		#self.auth_code = ""
 		self.redirect_uri = 'https://localhost:8000'
-
+		self.base_url = "https://api.tdameritrade.com/v1"
 
 
 
@@ -69,4 +73,38 @@ class Codebase:
 
 
 		return parse_url
+
+
+	def get_access_token(self, grant_type, code, access_type="offline"):
+		
+		''' refer to the post access token call on the ameritrade api documentation to get param 
+		to get code variable pass in open_connection method (return value is code)'''
+		url = self.base_url + "/oauth2/token"
+		payload = {"grant_type": grant_type, "access_type": access_type, "code": code, "client_id": self.client_code, "redirect_uri": self.redirect_uri}
+
+		r = requests.post(url, data= payload)
+
+		return r.json()
+
+
+	def get_stock_quote(self, api_key, access_token, symbol):
+
+		url = self.base_url + f"/marketdata/{symbol}/quotes"
+		params = {"apikey": api_key}
+		headers = {"Authorization": f"Bearer {access_token}"}
+
+		r = requests.get(url, params = params, headers = headers)
+		return r.json()
+
+
+
+cb = Codebase()
+
+x = cb.get_access_token("authorization_code", cb.open_connection())
+
+print(cb.get_stock_quote(os.getenv("API_KEY"), x["access_token"], "KO"))
+
+
+
+
 
