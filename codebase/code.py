@@ -6,15 +6,6 @@ from dotenv import load_dotenv
 import os
 import sys
 
-#sys.path.append(r"D:\PY Files\My Projects\stockanalysis\codebase")
-
-
-# load_dotenv()
-# client = os.getenv("API_KEY")
-# username = os.getenv("USERNAME")
-
-# print(client)
-# print(username)
 class Codebase:
 
 	def __init__(self):
@@ -26,7 +17,6 @@ class Codebase:
 		self.sec3 = os.getenv("SEC3")
 		self.sec4 = os.getenv("SEC4")
 		self.auth_code = os.getenv("AUTH_CODE")
-		#self.auth_code = ""
 		self.redirect_uri = 'https://localhost:8000'
 		self.base_url = "https://api.tdameritrade.com/v1"
 
@@ -87,22 +77,30 @@ class Codebase:
 		return r.json()
 
 
-	def get_stock_quote(self, api_key, access_token, symbol):
+	def get_stock_quote(self, access_token, symbol):
 
 		url = self.base_url + f"/marketdata/{symbol}/quotes"
-		params = {"apikey": api_key}
+		params = {"apikey": self.client_code}
+		headers = {"Authorization": f"Bearer {access_token}"}
+
+		r = requests.get(url, params = params, headers = headers)
+		return r.json()
+
+	def get_price_history(self, access_token, symbol, period_type="day", period="5"):
+		url = self.base_url + f"/marketdata/{symbol}/pricehistory"
+		params = {"apikey": self.client_code, "periodType": period_type, "period": period}
 		headers = {"Authorization": f"Bearer {access_token}"}
 
 		r = requests.get(url, params = params, headers = headers)
 		return r.json()
 
 
+# cb = Codebase()
 
-cb = Codebase()
-
-x = cb.get_access_token("authorization_code", cb.open_connection())
-
-print(cb.get_stock_quote(os.getenv("API_KEY"), x["access_token"], "KO"))
+# x = cb.get_access_token("authorization_code", cb.open_connection())
+# print(x)
+# print(cb.get_price_history(x["access_token"], "KO"))
+# # print(cb.get_stock_quote(x["access_token"], "KO"))
 
 
 

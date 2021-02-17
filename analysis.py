@@ -1,7 +1,7 @@
 from codebase import code
 
 
-class Calls:
+class Analysis:
 
 	def __init__(self):
 		self.base_url = "https://api.tdameritrade.com/v1"
