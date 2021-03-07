@@ -86,7 +86,7 @@ class Codebase:
 		r = requests.get(url, params = params, headers = headers)
 		return r.json()
 
-	def get_price_history(self, access_token, symbol, period_type="day", period="5"):
+	def get_price_history(self, access_token, symbol, period_type="day", period="10"):
 		url = self.base_url + f"/marketdata/{symbol}/pricehistory"
 		params = {"apikey": self.client_code, "periodType": period_type, "period": period}
 		headers = {"Authorization": f"Bearer {access_token}"}
@@ -98,9 +98,9 @@ class Codebase:
 # cb = Codebase()
 
 # x = cb.get_access_token("authorization_code", cb.open_connection())
-# print(x)
+# # print(x)
 # print(cb.get_price_history(x["access_token"], "KO"))
-# # print(cb.get_stock_quote(x["access_token"], "KO"))
+# # # print(cb.get_stock_quote(x["access_token"], "KO"))
 
 
 
