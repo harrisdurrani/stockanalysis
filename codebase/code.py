@@ -2,7 +2,6 @@ import time
 import urllib
 import requests
 from splinter import Browser
-from dotenv import load_dotenv
 import os
 import sys
 
@@ -16,21 +15,24 @@ class Codebase:
 		self.sec2 = os.getenv("SEC2")
 		self.sec3 = os.getenv("SEC3")
 		self.sec4 = os.getenv("SEC4")
-		self.auth_code = os.getenv("AUTH_CODE")
 		self.redirect_uri = 'https://localhost:8000'
 		self.base_url = "https://api.tdameritrade.com/v1"
 
 
 
 	def open_connection(self):
-		executable_path = {'executable_path': r'D:\PY Files\My Projects\stockanalysis\dependencies\chromedriver'}
-		browser = Browser('chrome', **executable_path, headless = False)
+		executable_path =  r'D:\PY Files\My Projects\stockanalysis\dependencies\chromedriver'
+		browser = Browser('chrome', executable_path=executable_path, headless = False)
 
 		method = 'GET'
 		url = 'https://auth.tdameritrade.com/auth?'
 		payload = {'response_type': 'code', 'redirect_uri': self.redirect_uri, 'client_id': self.client_code}
 
 		built_url = requests.Request(method, url, params= payload).prepare()
+		# built_url = requests.get(url, params= payload)
+		# print(built_url)
+		# response = requests.post(method, url, params= payload)
+
 		built_url = built_url.url
 		browser.visit(built_url)
 
@@ -68,7 +70,7 @@ class Codebase:
 	def get_access_token(self, grant_type, code, access_type="offline"):
 		
 		''' refer to the post access token call on the ameritrade api documentation to get param 
-		to get code variable pass in open_connection method (return value is code)'''
+		to get code variable, pass in open_connection method (return value is code)'''
 		url = self.base_url + "/oauth2/token"
 		payload = {"grant_type": grant_type, "access_type": access_type, "code": code, "client_id": self.client_code, "redirect_uri": self.redirect_uri}
 
@@ -96,7 +98,7 @@ class Codebase:
 
 
 # cb = Codebase()
-
+# cb.open_connection()
 # x = cb.get_access_token("authorization_code", cb.open_connection())
 # # print(x)
 # print(cb.get_price_history(x["access_token"], "KO"))
