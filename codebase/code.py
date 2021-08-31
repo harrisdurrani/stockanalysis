@@ -20,7 +20,7 @@ class Codebase:
 
 
 
-    def open_connection(self):
+    def get_code(self):
         executable_path =  r'D:\PY Files\My Projects\stockanalysis\dependencies\chromedriver'
         browser = Browser('chrome', executable_path=executable_path, headless = False)
 
@@ -67,16 +67,26 @@ class Codebase:
         return parse_url
 
 
-    def get_access_token(self, grant_type, code, access_type="offline"):
-        
-        ''' refer to the post access token call on the ameritrade api documentation to get param 
-        to get code variable, pass in open_connection method (return value is code)'''
+    def get_access_token(self):
+
         url = self.base_url + "/oauth2/token"
-        payload = {"grant_type": grant_type, "access_type": access_type, "code": code, "client_id": self.client_code, "redirect_uri": self.redirect_uri}
+        payload = {"grant_type": "refresh_token", "refresh_token": '''<dont forget the refresh_token>''' , "client_id": self.client_code, "redirect_uri": self.redirect_uri}
 
         r = requests.post(url, data= payload)
 
         return r.json()
+
+    def get_refresh_token(self, grant_type="authorization_code", access_type="offline"):
+        
+        ''' Method calls get_code method to renew the refresh token'''
+        url = self.base_url + "/oauth2/token"
+        payload = {"grant_type": grant_type, "access_type": access_type, "code": self.get_code(), "client_id": self.client_code, "redirect_uri": self.redirect_uri}
+
+        response = requests.post(url, data= payload)
+
+        refresh_token = response.json()
+
+        return refresh_token["refresh_token"]
 
 
     def get_stock_quote(self, access_token, symbol):
@@ -97,8 +107,9 @@ class Codebase:
         return r.json()
 
 
-# cb = Codebase()
-# cb.open_connection()
+cb = Codebase()
+print(cb.get_refresh_token())
+# print(cb.open_connection())
 # x = cb.get_access_token("authorization_code", cb.open_connection())
 # # print(x)
 # print(cb.get_price_history(x["access_token"], "KO"))
