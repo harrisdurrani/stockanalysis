@@ -10,7 +10,7 @@ class Analysis:
         ''' runs analysis on the bollinger bands of stock data, checks within 2 standard deviations'''
         candle_avgs = []
         cb = code.Codebase() #import the codebase
-        auth_token = cb.get_access_token("authorization_code", cb.open_connection()) #get auth code
+        auth_token = cb.get_access_token("authorization_code", cb.get_code()) #get auth code
         stock_data = cb.get_price_history(auth_token["access_token"], stock_name) #get stock history
 
         std_deviations = 2
@@ -39,7 +39,7 @@ class Analysis:
         
     def convert_to_df(self, stock_name:str):
         cb = code.Codebase() #call the codebase class
-        auth_token = cb.get_access_token("authorization_code", cb.open_connection()) #get auth token
+        auth_token = cb.get_access_token("authorization_code", cb.get_code()) #get auth token
         stock_data = cb.get_price_history(auth_token["access_token"], stock_name) #get stock data and its history
 
         points = stock_data['candles']
