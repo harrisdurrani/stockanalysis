@@ -5,6 +5,8 @@ from splinter import Browser
 import os
 import sys
 import json
+from datetime import datetime, timedelta
+
 
 class Codebase:
 
@@ -70,7 +72,7 @@ class Codebase:
 
     def get_access_token(self):
 
-        with open(r"C:\Users\harri\Documents\Projects\Python\stockanalysis\data.json") as f:
+        with open(r"D:\PY Files\My Projects\stockanalysis\data.json") as f:
             data = json.load(f)
             refresh_token = data["refresh_token"]
 
@@ -88,10 +90,14 @@ class Codebase:
         payload = {"grant_type": grant_type, "access_type": access_type, "code": self.get_code(), "client_id": self.client_code, "redirect_uri": self.redirect_uri}
 
         response = requests.post(url, data= payload)
+        current_time = datetime.now()
+        expired_time = current_time + timedelta(days=90)
 
         refresh_token = response.json()
         response_data["refresh_token"] = refresh_token["refresh_token"]
         response_data["refresh_token_expires_in"] = refresh_token["refresh_token_expires_in"]
+        response_data["start_time"] = current_time.isoformat()
+        response_data["expired_time"] = expired_time.isoformat()
 
         with open("data.json", "w", encoding='utf-8') as f:
             json.dump(response_data, f)
@@ -119,7 +125,7 @@ class Codebase:
 
 # cb = Codebase()
 # print(cb.get_access_token())
-#print(cb.get_refresh_token())
+# print(cb.get_refresh_token())
 # print(cb.open_connection())
 # x = cb.get_access_token("authorization_code", cb.open_connection())
 # # print(x)
