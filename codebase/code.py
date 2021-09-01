@@ -72,7 +72,7 @@ class Codebase:
 
         with open("D:\PY Files\My Projects\stockanalysis\data.json") as f:
             data = json.load(f)
-            
+
         url = self.base_url + "/oauth2/token"
         payload = {"grant_type": "refresh_token", "refresh_token": data , "client_id": self.client_code, "redirect_uri": self.redirect_uri}
 
@@ -114,8 +114,8 @@ class Codebase:
         return r.json()
 
 
-cb = Codebase()
-print(cb.get_access_token())
+# cb = Codebase()
+# print(cb.get_access_token())
 #print(cb.get_refresh_token())
 # print(cb.open_connection())
 # x = cb.get_access_token("authorization_code", cb.open_connection())

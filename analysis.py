@@ -10,7 +10,7 @@ class Analysis:
         ''' runs analysis on the bollinger bands of stock data, checks within 2 standard deviations'''
         candle_avgs = []
         cb = code.Codebase() #import the codebase
-        auth_token = cb.get_access_token("authorization_code", cb.get_code()) #get auth code
+        auth_token = cb.get_access_token() #get auth code
         stock_data = cb.get_price_history(auth_token["access_token"], stock_name) #get stock history
 
         std_deviations = 2
@@ -58,14 +58,14 @@ class Analysis:
 if __name__ == "__main__":
     stocks = ["KO"]
     analysis = Analysis()
-    stock = analysis.convert_to_df("KO")
+    # stock = analysis.convert_to_df("KO")
 
-    plt.figure(figsize=(16,8))
-    plt.plot(stock['close'], label = 'Close price history')
-    plt.show()
+    # plt.figure(figsize=(16,8))
+    # plt.plot(stock['close'], label = 'Close price history')
+    # plt.show()
 
-    # for i in stocks:
+    for i in stocks:
 
-    # 	print(analysis.bollinger_band_analysis(i))
+    	print(analysis.bollinger_band_analysis(i))
 
 
