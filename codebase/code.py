@@ -4,6 +4,7 @@ import requests
 from splinter import Browser
 import os
 import sys
+import json
 
 class Codebase:
 
@@ -86,7 +87,10 @@ class Codebase:
 
         refresh_token = response.json()
 
-        return refresh_token["refresh_token"]
+        with open("data.json", "w", encoding='utf-8') as f:
+            json.dump(refresh_token, f)
+
+        # return refresh_token["refresh_token"]
 
 
     def get_stock_quote(self, access_token, symbol):
