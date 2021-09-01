@@ -22,7 +22,7 @@ class Codebase:
 
 
     def get_code(self):
-        executable_path =  r'D:\PY Files\My Projects\stockanalysis\dependencies\chromedriver'
+        executable_path =  r'dependencies\chromedriver.exe'
         browser = Browser('chrome', executable_path=executable_path, headless = False)
 
         method = 'GET'
@@ -81,17 +81,19 @@ class Codebase:
         return r.json()
 
     def get_refresh_token(self, grant_type="authorization_code", access_type="offline"):
-        
         ''' Method calls get_code method to renew the refresh token'''
+        response_data = {}
         url = self.base_url + "/oauth2/token"
         payload = {"grant_type": grant_type, "access_type": access_type, "code": self.get_code(), "client_id": self.client_code, "redirect_uri": self.redirect_uri}
 
         response = requests.post(url, data= payload)
 
         refresh_token = response.json()
+        response_data["refresh_token"] = refresh_token["refresh_token"]
+        response_data["refresh_token_expires_in"] = refresh_token["refresh_token_expires_in"]
 
         with open("data.json", "w", encoding='utf-8') as f:
-            json.dump(refresh_token["refresh_token"], f)
+            json.dump(response_data, f)
 
         # return refresh_token["refresh_token"]
 
@@ -114,8 +116,8 @@ class Codebase:
         return r.json()
 
 
-# cb = Codebase()
-# print(cb.get_access_token())
+cb = Codebase()
+cb.get_refresh_token()
 #print(cb.get_refresh_token())
 # print(cb.open_connection())
 # x = cb.get_access_token("authorization_code", cb.open_connection())
