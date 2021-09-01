@@ -70,8 +70,11 @@ class Codebase:
 
     def get_access_token(self):
 
+        with open("D:\PY Files\My Projects\stockanalysis\data.json") as f:
+            data = json.load(f)
+            
         url = self.base_url + "/oauth2/token"
-        payload = {"grant_type": "refresh_token", "refresh_token": '''<dont forget the refresh_token>''' , "client_id": self.client_code, "redirect_uri": self.redirect_uri}
+        payload = {"grant_type": "refresh_token", "refresh_token": data , "client_id": self.client_code, "redirect_uri": self.redirect_uri}
 
         r = requests.post(url, data= payload)
 
@@ -88,7 +91,7 @@ class Codebase:
         refresh_token = response.json()
 
         with open("data.json", "w", encoding='utf-8') as f:
-            json.dump(refresh_token, f)
+            json.dump(refresh_token["refresh_token"], f)
 
         # return refresh_token["refresh_token"]
 
@@ -112,7 +115,8 @@ class Codebase:
 
 
 cb = Codebase()
-print(cb.get_refresh_token())
+print(cb.get_access_token())
+#print(cb.get_refresh_token())
 # print(cb.open_connection())
 # x = cb.get_access_token("authorization_code", cb.open_connection())
 # # print(x)
