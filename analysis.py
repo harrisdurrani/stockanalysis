@@ -43,22 +43,3 @@ class Analysis:
 
     def regression_analysis(self, stock_name:str):
         pass
-
-
-
-
-if __name__ == "__main__":
-    stocks = ["KO"]
-    analysis = Analysis()
-    stock = analysis.convert_to_df("KO")
-    print(stock)
-
-    # plt.figure(figsize=(16,8))
-    # plt.plot(stock['close'], label = 'Close price history')
-    # plt.show()
-
-    # for i in stocks:
-
-    # 	print(analysis.bollinger_band_analysis(i))
-
-
