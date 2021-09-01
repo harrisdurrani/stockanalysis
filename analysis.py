@@ -28,14 +28,6 @@ class Analysis:
 
         return f"stock name: {stock_name},\n upper band: {upper_band},\n moving average: {moving_avg},\n lower band: {lower_band}"
 
-        # print("#" * 10)
-        # print(stock_name)
-        # print(upper_band)
-        # print(moving_avg)
-        
-        # print(lower_band)
-        
-        # print("#" * 10)
         
     def convert_to_df(self, stock_name:str):
         cb = code.Codebase() #call the codebase class
