@@ -39,7 +39,7 @@ class Analysis:
         
     def convert_to_df(self, stock_name:str):
         cb = code.Codebase() #call the codebase class
-        auth_token = cb.get_access_token("authorization_code", cb.get_code()) #get auth token
+        auth_token = cb.get_access_token() #get auth token
         stock_data = cb.get_price_history(auth_token["access_token"], stock_name) #get stock data and its history
 
         points = stock_data['candles']
@@ -58,14 +58,15 @@ class Analysis:
 if __name__ == "__main__":
     stocks = ["KO"]
     analysis = Analysis()
-    # stock = analysis.convert_to_df("KO")
+    stock = analysis.convert_to_df("KO")
+    print(stock)
 
     # plt.figure(figsize=(16,8))
     # plt.plot(stock['close'], label = 'Close price history')
     # plt.show()
 
-    for i in stocks:
+    # for i in stocks:
 
-    	print(analysis.bollinger_band_analysis(i))
+    # 	print(analysis.bollinger_band_analysis(i))
 
 
