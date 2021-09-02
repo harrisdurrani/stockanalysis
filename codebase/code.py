@@ -72,7 +72,7 @@ class Codebase:
 
     def get_access_token(self):
 
-        with open(r"D:\PY Files\My Projects\stockanalysis\data.json") as f:
+        with open(r"C:\Users\harri\Documents\Projects\Python\stockanalysis\data.json") as f:
             data = json.load(f)
             refresh_token = data["refresh_token"]
 
@@ -102,9 +102,22 @@ class Codebase:
         with open("data.json", "w", encoding='utf-8') as f:
             json.dump(response_data, f)
 
-        # return refresh_token["refresh_token"]
 
+    def validate_refresh_token(self):
+        current_time = datetime.now()
 
+        with open(r"C:\Users\harri\Documents\Projects\Python\stockanalysis\data.json") as f:
+            data = json.load(f)
+            start_time = data["start_time"]
+            expire_time = data["expired_time"]
+
+        if current_time.isoformat() == expire_time:
+            self.get_refresh_token()
+        else:
+            access_token = self.get_access_token()
+            return access_token["access_token"]
+        
+    
     def get_stock_quote(self, access_token, symbol):
 
         url = self.base_url + f"/marketdata/{symbol}/quotes"
@@ -123,14 +136,11 @@ class Codebase:
         return r.json()
 
 
-# cb = Codebase()
+cb = Codebase()
+print(cb.validate_refresh_token())
 # print(cb.get_access_token())
-# print(cb.get_refresh_token())
-# print(cb.open_connection())
-# x = cb.get_access_token("authorization_code", cb.open_connection())
-# # print(x)
-# print(cb.get_price_history(x["access_token"], "KO"))
-# # # print(cb.get_stock_quote(x["access_token"], "KO"))
+#print(cb.get_refresh_token())
+
 
 
 
