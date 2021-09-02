@@ -10,8 +10,8 @@ class Analysis:
         ''' runs analysis on the bollinger bands of stock data, checks within 2 standard deviations'''
         candle_avgs = []
         cb = code.Codebase() #import the codebase
-        auth_token = cb.get_access_token() #get auth code
-        stock_data = cb.get_price_history(auth_token["access_token"], stock_name) #get stock history
+        auth_token = cb.validate_refresh_token() #get auth code
+        stock_data = cb.get_price_history(auth_token, stock_name) #get stock history
 
         std_deviations = 2
         upper_band = None
