@@ -6,7 +6,8 @@ import os
 import sys
 import json
 from datetime import datetime, timedelta
-
+from pathlib import Path
+DATA_FILE = Path.cwd() / "data.json"
 
 class Codebase:
 
@@ -72,7 +73,7 @@ class Codebase:
 
     def get_access_token(self):
 
-        with open(r"D:\PY Files\My Projects\stockanalysis\data.json") as f:
+        with open(DATA_FILE, "r") as f:
             data = json.load(f)
             refresh_token = data["refresh_token"]
 
@@ -106,10 +107,9 @@ class Codebase:
     def validate_refresh_token(self):
         current_time = datetime.now()
 
-        with open(r"D:\PY Files\My Projects\stockanalysis\data.json") as f:
+        with open(DATA_FILE, "r") as f:
             data = json.load(f)
-            start_time = data["start_time"]
-            expire_time = data["expired_time"]
+        expire_time = data["expired_time"]
 
         if current_time.isoformat() >= expire_time:
             self.get_refresh_token()
@@ -138,7 +138,7 @@ class Codebase:
 
 # cb = Codebase()
 # print(cb.validate_refresh_token())
-# print(cb.get_access_token())
+#print(cb.get_access_token())
 #print(cb.get_refresh_token())
 
 
