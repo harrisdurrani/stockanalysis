@@ -33,9 +33,6 @@ class Codebase:
         payload = {'response_type': 'code', 'redirect_uri': self.redirect_uri, 'client_id': self.client_code}
 
         built_url = requests.Request(method, url, params= payload).prepare()
-        # built_url = requests.get(url, params= payload)
-        # print(built_url)
-        # response = requests.post(method, url, params= payload)
 
         built_url = built_url.url
         browser.visit(built_url)
@@ -137,6 +134,7 @@ class Codebase:
 
 
 # cb = Codebase()
+# cb.get_code()
 # print(cb.validate_refresh_token())
 #print(cb.get_access_token())
 #print(cb.get_refresh_token())
