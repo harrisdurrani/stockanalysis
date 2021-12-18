@@ -13,4 +13,4 @@ if __name__ == "__main__":
 
     for i in stocks:
 
-        print(analysis.bollinger_band_analysis(i)+"\n")
+        print(analysis.convert_to_df(i))

@@ -134,10 +134,12 @@ class Codebase:
 
 
 # cb = Codebase()
-# cb.get_code()
-# print(cb.validate_refresh_token())
+# # cb.get_code()
+# auth_token = cb.validate_refresh_token() #get auth code
+# print(cb.get_price_history(auth_token, "KO"))
 #print(cb.get_access_token())
 #print(cb.get_refresh_token())
+
 
 
 

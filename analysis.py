@@ -31,8 +31,8 @@ class Analysis:
         
     def convert_to_df(self, stock_name:str):
         cb = code.Codebase() #call the codebase class
-        auth_token = cb.get_access_token() #get auth token
-        stock_data = cb.get_price_history(auth_token["access_token"], stock_name) #get stock data and its history
+        auth_token = cb.validate_refresh_token() #get auth token
+        stock_data = cb.get_price_history(auth_token, stock_name) #get stock data and its history
 
         points = stock_data['candles']
 
