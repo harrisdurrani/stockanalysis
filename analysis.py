@@ -1,5 +1,7 @@
 from codebase import code
-from sklearn.linear_model import LogisticRegression
+from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import mean_squared_error, r2_score, mean_absolute_error
 import pandas as pd
 import statistics
 import matplotlib.pyplot as plt
@@ -42,4 +44,17 @@ class Analysis:
         return df
 
     def regression_analysis(self, stock_name:str):
-        pass
+        df = self.convert_to_df(stock_name)
+        df = df[["close","high","low"]]
+        moving_avg = (df["high"] + df["low"]) / 2
+        df["moving_avg"] = moving_avg
+        X_train, X_test, y_train, y_test = train_test_split(df[["close"]], df[["moving_avg"]], test_size=.2)
+        model = LinearRegression()
+        # Train the model
+        model.fit(X_train, y_train)
+        # Use model to make predictions
+        y_pred = model.predict(X_test)        
+        print("Model Coefficients:", model.coef_)
+        print("Mean Absolute Error:", mean_absolute_error(y_test, y_pred))
+        print("Coefficient of Determination:", r2_score(y_test, y_pred))
+        

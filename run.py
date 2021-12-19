@@ -2,7 +2,7 @@ from analysis import Analysis
 
 
 if __name__ == "__main__":
-    stocks = ["MSFT", "AMC", "ABBV", "ABT", "NVDA", "AAPL"]
+    stocks = ["MSFT"]
     analysis = Analysis()
     # stock = analysis.convert_to_df("KO")
     # print(stock)
@@ -13,4 +13,4 @@ if __name__ == "__main__":
 
     for i in stocks:
 
-        print(analysis.convert_to_df(i))
+        analysis.regression_analysis(i)
